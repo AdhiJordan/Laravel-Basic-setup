@@ -235,6 +235,48 @@ Route::get('/insert', function(){
 */
 
 Route::get('/soft', function() {
-	Post::find(6)->delete();
+	Post::find(8)->delete();
 
+});
+
+/*
+|--------------------------------------------------------------------------
+| Deleting data [Thrashing of Data] using Eloquent
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+Route::get('/delete', function() {
+	$post = Post::withTrashed()->where('id', 8)->get();
+
+	return $post;
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Deleting data [Restoring the Thrashed Data] using Eloquent
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+Route::get('/restore', function() {
+
+Post::withTrashed()->where('is_admin', 0)->restore();
+});
+
+/*
+|--------------------------------------------------------------------------
+| Deleting data [Permanently from the Table] using Eloquent
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+Route::get('/fulldelete', function() {
+
+Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
 });
