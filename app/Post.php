@@ -1,5 +1,7 @@
 <?php
 
+use App\User;
+use App\Post;
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,5 +20,13 @@ class Post extends Model
     'content'
 
     ];
+
+
+public function user() {
+	return $this->belongsTo('App\User');
+}
+
+
+
 
 }

@@ -1,5 +1,6 @@
 <?php
 use App\Post ;
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -234,10 +235,10 @@ Route::get('/insert', function(){
 |
 */
 
-Route::get('/soft', function() {
-	Post::find(8)->delete();
+// Route::get('/soft', function() {
+// 	Post::find(8)->delete();
 
-});
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -247,11 +248,11 @@ Route::get('/soft', function() {
 |
 |
 */
-Route::get('/delete', function() {
-	$post = Post::withTrashed()->where('id', 8)->get();
+// Route::get('/delete', function() {
+// 	$post = Post::withTrashed()->where('id', 8)->get();
 
-	return $post;
-});
+// 	return $post;
+// });
 
 
 /*
@@ -262,10 +263,10 @@ Route::get('/delete', function() {
 |
 |
 */
-Route::get('/restore', function() {
+// Route::get('/restore', function() {
 
-Post::withTrashed()->where('is_admin', 0)->restore();
-});
+// Post::withTrashed()->where('is_admin', 0)->restore();
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -276,7 +277,84 @@ Post::withTrashed()->where('is_admin', 0)->restore();
 |
 */
 
-Route::get('/fulldelete', function() {
+// Route::get('/fulldelete', function() {
 
-Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
+// Post::onlyTrashed()->where('is_admin', 0)->forceDelete();
+// });
+
+
+/*
+|--------------------------------------------------------------------------
+|Eloquent Relationships
+	[ONE TO ONE RELATIONSHIP]
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+// Route::get('/user/{id}/post', function($id) {
+// 	return User::find($id)->post;
+
+// });
+
+
+
+/*
+|--------------------------------------------------------------------------
+|Eloquent Relationships
+	[INVERSE RELATIONSHIP]
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+// Route::get('/post/{id}/user', function($id) {
+// 	return Post::find($id)->user->name;
+
+// });
+
+/*
+|--------------------------------------------------------------------------
+|Eloquent Relationships
+	[ONE TO MANY RELATIONSHIP]
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+Route::get('/posts', function(){
+
+	$display = User::find(1);
+
+	foreach($display->posts as $post) {
+	echo $post->content . "<br>";
+	}
+
+
+});
+
+/*
+|--------------------------------------------------------------------------
+|Eloquent Relationships
+	[MANY TO MANY RELATIONSHIP]
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+Route::get('/user/{id}/role', function($id){
+
+	$display = User::find($id)->roles()->orderBy('id', 'desc')->get();
+
+	return $display;
+
+	// foreach($display->roles as $post) {
+	// echo $post->name . "<br>";
+	// }
+
+
 });

@@ -1,5 +1,5 @@
 <?php
-
+use App\Post;
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
@@ -14,6 +14,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+    
     protected $fillable = [
         'name', 'email', 'password',
     ];
@@ -26,4 +27,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function post() {
+        return $this->hasOne('App\Post');
+    }
+
+    public function posts() {
+
+        return $this->hasMany('App\Post');
+    }
+
+    public function roles() {
+        return $this->belongsToMany('App\Role');
+    }
+
 }
