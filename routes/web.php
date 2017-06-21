@@ -1,6 +1,7 @@
 <?php
 use App\Post ;
 use App\User;
+use App\Country;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -295,7 +296,6 @@ Route::get('/insert', function(){
 
 // Route::get('/user/{id}/post', function($id) {
 // 	return User::find($id)->post;
-
 // });
 
 
@@ -346,15 +346,125 @@ Route::get('/posts', function(){
 |
 */
 
-Route::get('/user/{id}/role', function($id){
+// Route::get('/user/{id}/role', function($id){
 
-	$display = User::find($id)->roles()->orderBy('id', 'desc')->get();
+// 	$display = User::find($id)->roles()->orderBy('id', 'desc')->get();
 
-	return $display;
+// 	return $display;
 
-	// foreach($display->roles as $post) {
-	// echo $post->name . "<br>";
+// 	// foreach($display->roles as $post) {
+// 	// echo $post->name . "<br>";
+// 	// }
+
+
+// });
+
+/*
+|--------------------------------------------------------------------------
+|QUERYING THE PIVOT TABLE
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+Route::get('/pivot', function() {
+
+
+	 $user = Country::find(2);
+	
+	 foreach ($user->count as $display) {
+	 	# code...
+	 	 return $display;
+	 }
+
+ 	   // foreach($user->count as $display) {
+ 	   
+ 	   // 		 return $display->pivot->id;
+
+ 	   // }
+
+
+// $user = User::find(1);
+// return $user;
+
+	// foreach($user->roles as $display) {
+	   
+	// 	return $display->pivot->user_id;
 	// }
 
+	// $count = Country::find($id);
+	// return $count;
 
+});
+
+/*
+|--------------------------------------------------------------------------
+|HASMANY through many relation tables
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+
+Route::get('/user/country', function() {
+
+	   	$display = Country::find(2);
+	   	foreach ($display->posts as $show) {
+	   		# code...
+	   		return $show;
+	   	}
+	 	
+});
+
+
+
+/*
+|--------------------------------------------------------------------------
+|Polymorphic
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+Route::get('/post/photos', function() {
+$user = Post:: find(1);
+
+foreach ($user->photos as $display) {
+	# code...
+
+	echo $display . "<br>";
+}
+});
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+|Polymorphic Many to Many
+|--------------------------------------------------------------------------
+|
+|
+|
+*/
+Route::get('/post/tag', function() {
+$user = Post::find(1);
+
+foreach ($user->tags as $display) {
+	# code...
+
+	return $display->name;
+}
+});
+
+
+Route::get('/tag/post', function() {
+$user = Tag::find(2);
+
+foreach ($user->posts as $display) {
+	# code...
+
+	return $display->name;
+}
 });

@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Post;
+use App\Country;
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,11 @@ public function user() {
 	return $this->belongsTo('App\User');
 }
 
-
-
+public function photos() {
+	return $this->morphMany('App\Photo', 'imageable');
+}
+ public function tags() {
+ 	return $this->morphToMany('App\Tag', 'taggable'); 
+ }
 
 }

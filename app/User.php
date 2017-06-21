@@ -1,8 +1,12 @@
 <?php
 use App\Post;
+use App\Country;
+use App\Role;
+use App\User;
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -29,16 +33,27 @@ class User extends Authenticatable
     ];
 
     public function post() {
+
         return $this->hasOne('App\Post');
     }
 
     public function posts() {
 
         return $this->hasMany('App\Post');
+
     }
 
     public function roles() {
-        return $this->belongsToMany('App\Role');
+
+        return $this->belongsToMany('App\Role')->withpivot('user_id');
     }
 
+    public function count() {
+        return $this->belongsToMany('App\Country');
+    }
+
+
+public function photos() {
+    return $this->morphMany('App\Photo', 'imageable');
+}
 }
